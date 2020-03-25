@@ -1,4 +1,4 @@
-print("Version 0.0.2")
+print("Version 0.0.3")
 
 from matplotlib import rcParams
 from numpy import array
@@ -6,7 +6,7 @@ from numpy import array
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from statsmodels.formula.api import ols
+from statsmodels.formula.api import ols,wls
 
 
 fontsize=20
