@@ -10,25 +10,13 @@ get_ipython().run_line_magic('pylab', 'inline')
 # In[2]:
 
 
-from science import *
+from sci378 import *
 
 
-# In[3]:
+# In[7]:
 
 
 import gzip
-
-
-# In[4]:
-
-
-timeit(reset=True)
-
-
-# In[5]:
-
-
-timeit()
 
 
 # # Parsing the GISS Data
@@ -40,33 +28,33 @@ timeit()
 # 
 # The Brightness Index (BI) is used to categorize stations as rural or suburban. A station with a BI value equal to or less than ten is rural while greater than 10 is suburban.
 
-# In[6]:
+# In[8]:
 
 
 subset_station_lines=station_lines=open('data/station_list.txt').readlines()
 all_station_lines=open('data/v4.temperature.inv.txt').readlines()
 
 
-# In[7]:
+# In[9]:
 
 
 with gzip.open('data/v4.mean_GISS_homogenized.txt.gz','rt') as fid:
     GISS_lines=fid.readlines()
 
 
-# In[8]:
+# In[10]:
 
 
 station_lines[:10]  # first 10 lines
 
 
-# In[9]:
+# In[11]:
 
 
 all_station_lines[:10]
 
 
-# In[10]:
+# In[12]:
 
 
 GISS_lines[:80]  # what are these numbers?
@@ -76,21 +64,21 @@ GISS_lines[:80]  # what are these numbers?
 
 # Fixed length strings on station list  :-(
 
-# In[11]:
+# In[13]:
 
 
 header=station_lines[0].split('\t')
 header
 
 
-# In[12]:
+# In[14]:
 
 
 header=GISS_lines[0].split()
 header
 
 
-# In[13]:
+# In[15]:
 
 
 GISS_lines[-10:]
@@ -102,7 +90,7 @@ GISS_lines[-10:]
 
 
 
-# In[14]:
+# In[16]:
 
 
 data=[]
@@ -172,7 +160,7 @@ data.append(station_data)
 print("done.")
 
 
-# In[15]:
+# In[17]:
 
 
 earliest_year
@@ -180,19 +168,19 @@ earliest_year
 
 # ## Can I make it into a single data frame or perhaps two?  average over a year
 
-# In[16]:
+# In[18]:
 
 
 len(station_lines)
 
 
-# In[17]:
+# In[19]:
 
 
 import pandas as pd
 
 
-# In[18]:
+# In[20]:
 
 
 time_arr=arange(1880,2021)
@@ -291,38 +279,50 @@ info.Brightness.append(station_data.brightness)
 print("done.")
 
 
-# In[19]:
+# In[21]:
 
 
 info=pd.DataFrame(info)
 data=pd.DataFrame(data)
 
 
-# In[20]:
+# In[22]:
 
 
 info.head()
 
 
-# In[21]:
+# In[24]:
 
 
-data.tail()
-
-
-# In[22]:
-
-
-info.to_excel("data/station_info.xlsx")
+len(info)
 
 
 # In[23]:
 
 
+data.tail()
+
+
+# In[25]:
+
+
+data
+
+
+# In[26]:
+
+
+info.to_excel("data/station_info.xlsx")
+
+
+# In[27]:
+
+
 data.to_excel("data/station_temperature_data.xlsx")
 
 
-# In[24]:
+# In[28]:
 
 
 data.to_csv("data/station_temperature_data.csv.gz", compression='gzip')
@@ -334,13 +334,13 @@ data.to_csv("data/station_temperature_data.csv.gz", compression='gzip')
 
 
 
-# In[ ]:
+# In[31]:
 
 
-data2=pd.read_csv("station_temperature_data.csv.gz",index_col=False)
+data2=pd.read_csv("data/station_temperature_data.csv.gz",index_col=False)
 
 
-# In[ ]:
+# In[32]:
 
 
 data2.head()
@@ -358,7 +358,7 @@ data2.head()
 
 
 
-# In[ ]:
+# In[33]:
 
 
 plot(data2['time'],data2['SAVE'],'-o')
