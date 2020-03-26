@@ -19,19 +19,19 @@ from sci378 import *
 # 4. at the bottom, downloaded the CSV
 # 5. renamed the station.csv to berkeley.csv and put it in my data folder
 
-# In[36]:
+# In[4]:
 
 
-data=pd.read_csv('data/berkeley.csv')
+data=pd.read_csv('data/crichton/berkeley.csv')
 
 
-# In[37]:
+# In[5]:
 
 
 data
 
 
-# In[39]:
+# In[6]:
 
 
 x=array(data['YEAR'])
@@ -39,19 +39,19 @@ y=array(data['metANN'])
 y[y==999.9]=nan
 
 
-# In[40]:
+# In[7]:
 
 
 x
 
 
-# In[41]:
+# In[8]:
 
 
 y
 
 
-# In[42]:
+# In[9]:
 
 
 station='BERKELEY'
@@ -61,7 +61,7 @@ ylabel('Temperature [C]')
 title(station)
 
 
-# In[43]:
+# In[10]:
 
 
 model=ols('y ~ x', data={'y':y,'x':x})
@@ -69,7 +69,7 @@ results=model.fit()
 results.summary()
 
 
-# In[44]:
+# In[11]:
 
 
 xx=linspace(min(x)-10,max(x)+10,20)
@@ -92,7 +92,7 @@ plot(xx,yy,'b-')
 # * 1-$\sigma$ uncertainty is 0.00125
 # * look at 95% range, then I look 2-$\sigma$ uncertainty
 
-# In[46]:
+# In[12]:
 
 
 v=0.00481
@@ -103,7 +103,7 @@ upper_bound=v + 2*one_σ
 lower_bound,upper_bound
 
 
-# In[47]:
+# In[13]:
 
 
 0.00231*100 # per century
@@ -111,7 +111,7 @@ lower_bound,upper_bound
 
 # ## Save the plot, but don't show it
 
-# In[45]:
+# In[14]:
 
 
 plot(x,y,'-o')
