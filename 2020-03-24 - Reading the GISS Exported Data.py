@@ -37,10 +37,10 @@ info.head()
 data.tail()
 
 
-# In[33]:
+# In[7]:
 
 
-station='SAVE'
+station='BERKELEY'
 x=data['time']
 y=data[station]
 plot(x,y,'-o')
@@ -53,7 +53,7 @@ title(station)
 x,y   # lots of nans!
 
 
-# In[36]:
+# In[26]:
 
 
 def get_xy(data,station):
@@ -95,6 +95,121 @@ plot(xx,yy,'b-')
 
 
 results.bse
+
+
+# ## go through all the stations
+# 
+# **is there a relationship between the temperature trend and brightness?**
+# 
+# (ideally) 20,000 stations
+# 
+# 1. x variable: brightness - 20,000 values
+# 2. y variable: slope - 20,000 values
+# 
+# ### Recipe
+# 
+# 1. loop through stations, for each:
+#     1. get the brightness
+#     2. get the trends (slope)
+#     3. get the slope uncertainties (m-σ)
+#     3. add them to lists/Storage
+# 
+# things to consider
+# 
+# 1. weighted by the m-σ
+# 2. errorbars
+
+# In[9]:
+
+
+station_names=data.columns[2:]
+station_names[:20]
+
+
+# In[11]:
+
+
+station='SHARJAH_INTER_AIRP'
+info[info['Station']==station]
+
+
+# In[14]:
+
+
+float(info[info['Station']==station]['Brightness'])
+
+
+# In[33]:
+
+
+station='SAVE'
+
+
+# In[38]:
+
+
+array(info[info['Station']==station]['Brightness'])[0]
+
+
+# In[ ]:
+
+
+
+
+
+# In[47]:
+
+
+S=Storage()
+for station in station_names[:200]:
+    #brightness=float(info[info['Station']==station]['Brightness'])
+    brightness=array(info[info['Station']==station]['Brightness'])[0]
+    x,y=get_xy(data,station)
+    
+    if len(x)==0:
+        continue 
+        
+    model=ols('y ~ x', data={'y':y,'x':x})
+    results=model.fit()
+    m=results.params['x']
+    mσ=results.bse['x']
+    
+    S+=brightness,m,mσ
+    print(station)
+    
+brightness,m,mσ = array(S)
+
+
+# In[48]:
+
+
+brightness
+
+
+# In[49]:
+
+
+m,mσ
+
+
+# In[50]:
+
+
+x=brightness
+y=m
+yerr=mσ
+
+
+# In[51]:
+
+
+plot(x,y,'o')
+
+
+# In[52]:
+
+
+errorbar(x,y,yerr,fmt='o');
 
 
 # In[ ]:
