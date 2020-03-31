@@ -28,30 +28,11 @@ import gzip
 # 
 # The Brightness Index (BI) is used to categorize stations as rural or suburban. A station with a BI value equal to or less than ten is rural while greater than 10 is suburban.
 
-# In[8]:
-
-
-subset_station_lines=station_lines=open('data/station_list.txt').readlines()
-all_station_lines=open('data/v4.temperature.inv.txt').readlines()
-
-
 # In[9]:
 
 
 with gzip.open('data/v4.mean_GISS_homogenized.txt.gz','rt') as fid:
     GISS_lines=fid.readlines()
-
-
-# In[10]:
-
-
-station_lines[:10]  # first 10 lines
-
-
-# In[11]:
-
-
-all_station_lines[:10]
 
 
 # In[12]:

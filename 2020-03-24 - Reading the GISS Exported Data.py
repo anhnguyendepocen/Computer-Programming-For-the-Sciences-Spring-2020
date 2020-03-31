@@ -212,6 +212,12 @@ plot(x,y,'o')
 errorbar(x,y,yerr,fmt='o');
 
 
+# In[53]:
+
+
+info[info['Brightness']>150]
+
+
 # In[ ]:
 
 
