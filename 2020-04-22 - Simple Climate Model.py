@@ -68,6 +68,8 @@ sim.add_data(t=t,Ts=T+14.6+273.13,plot=2)
 sim.run(1880,2020)
 
 
+# Data from: https://nsidc.org/data/seaice_index/archives
+
 # In[55]:
 
 
