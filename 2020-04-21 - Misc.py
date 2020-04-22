@@ -13,38 +13,38 @@ get_ipython().run_line_magic('pylab', 'inline')
 from sci378 import *
 
 
-# In[5]:
+# In[3]:
 
 
 t=linspace(1900,2000,101)
 T=10+(t-1900)*.5 + 5*rand(len(t))
 
 
-# In[6]:
+# In[4]:
 
 
 plot(t,T,'-o')
 
 
-# In[9]:
+# In[5]:
 
 
 polyfit(t-1950,T,1)
 
 
-# In[10]:
+# In[6]:
 
 
 polyfit(t,T,1)
 
 
-# In[3]:
+# In[7]:
 
 
 from pyndamics import *
 
 
-# In[5]:
+# In[8]:
 
 
 t=linspace(0,10,100)
@@ -52,48 +52,22 @@ S=sin(t*3)
 plot(t,S)
 
 
-# In[17]:
+# In[9]:
 
-
-class InterpData(object):
-    
-    def __init__(self,x,y,name):
-        self.x=x
-        self.y=y
-        self.__name__=name
-        
-    def __call__(self,x):
-        from numpy import interp
-        y=interp(x,self.x,self.y)
-        return y
 
 t=linspace(0,10,100)  # made up data, you can use the real thing
-S=sin(t*3)
-
-F=InterpData(t,S,'F')
+values=sin(t*3)
 
 
-# In[18]:
+# In[10]:
 
 
 sim=Simulation()
 sim.add("v'=F(t)/m",0,plot=True)
 sim.add("x'=v",0,plot=True)
 sim.params(m=1)
-sim.functions(F)
+sim.add_interp_function(t=t,F=values)
 sim.run(0,10)
-
-
-# In[10]:
-
-
-dir(sim)
-
-
-# In[11]:
-
-
-get_ipython().run_line_magic('pinfo', 'sim.functions')
 
 
 # In[ ]:
