@@ -1,32 +1,32 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[2]:
 
 
 get_ipython().run_line_magic('pylab', 'inline')
 
 
-# In[2]:
+# In[3]:
 
 
 from pyndamics import *
 
 
-# In[3]:
+# In[4]:
 
 
 import pandas as pd
 
 
-# In[9]:
+# In[5]:
 
 
 data=pd.read_csv('data/temperature.txt',delim_whitespace=True)
 data
 
 
-# In[10]:
+# In[6]:
 
 
 t=array(data['Year'])
@@ -37,7 +37,7 @@ plot(t,T,'-o')
 # * Equation 4 in IV 3 Climate Influence of Solar Variability
 # * https://web.bryant.edu/~bblais/pdf/energy_balance.pdf
 
-# In[28]:
+# In[9]:
 
 
 sim=Simulation()
@@ -55,7 +55,7 @@ sim.run(1880,2020)
 # dE_{\rm atm}/dt &=& +\gamma E_{\rm surface} - 2\cdot E_{\rm atm}
 # \end{eqnarray}
 
-# In[29]:
+# In[11]:
 
 
 sim=Simulation()
@@ -63,8 +63,35 @@ sim.add("Es'=C1*(100-albedo*100+Ea-Es)",139,plot=1)
 sim.add("Ea'=C2*(γ*Es-Ea-Ea)",69,plot=1)
 sim.add("Ts=88.5*Es**0.25",plot=2)
 sim.add("Ta=88.5*Ea**0.25",plot=2)
-sim.params(C1=1,C2=10,albedo=0.3,γ=1.0)
+sim.params(C1=1,C2=10,albedo=0.3,γ=.8)
 sim.add_data(t=t,Ts=T+14.6+273.13,plot=2)
+sim.run(1880,2020)
+
+
+# In[12]:
+
+
+from pyndamics.emcee import *
+
+
+# In[13]:
+
+
+model=MCMCModel(sim,
+               γ=Uniform(0,1),
+               initial_Es=Uniform(100,140))
+
+
+# In[14]:
+
+
+model.run_mcmc(500,repeat=2)
+model.plot_chains()
+
+
+# In[15]:
+
+
 sim.run(1880,2020)
 
 
