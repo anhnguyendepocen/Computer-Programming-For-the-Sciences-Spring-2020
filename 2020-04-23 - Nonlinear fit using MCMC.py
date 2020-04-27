@@ -41,7 +41,7 @@ from sie.mcmc import MCMCModel,Uniform,Normal,Jeffreys
 
 def P_data(data,m,b,σ):
     x,y=data
-    μ=m*x+b
+    μ=m*x+b     # y ~ μ + random
     distribution=Normal(μ,σ)
     return sum(distribution(y))
 
