@@ -28,7 +28,7 @@ T=array(data['Annual_Mean'])
 plot(t,T,'-o')
 
 
-# In[6]:
+# In[5]:
 
 
 from sie.mcmc import MCMCModel,Uniform,Normal,Jeffreys
@@ -36,7 +36,7 @@ from sie.mcmc import MCMCModel,Uniform,Normal,Jeffreys
 
 # ## Fit to Linear, as an Example
 
-# In[7]:
+# In[6]:
 
 
 def P_data(data,m,b,σ):
@@ -46,7 +46,7 @@ def P_data(data,m,b,σ):
     return sum(distribution(y))
 
 
-# In[10]:
+# In[7]:
 
 
 data=t,T
@@ -57,7 +57,7 @@ model=MCMCModel(data,P_data,
                )
 
 
-# In[11]:
+# In[8]:
 
 
 for i in range(2):
@@ -65,19 +65,25 @@ for i in range(2):
 model.plot_chains()
 
 
-# In[12]:
+# In[9]:
+
+
+model.BIC
+
+
+# In[10]:
 
 
 model.plot_distributions()
 
 
-# In[20]:
+# In[11]:
 
 
 model.best_estimates()
 
 
-# In[24]:
+# In[12]:
 
 
 figure(figsize=(14,10))
@@ -90,7 +96,7 @@ b=model.best_estimates()['b'][1]
 plot(t,μ,'-')
 
 
-# In[23]:
+# In[13]:
 
 
 m
@@ -98,17 +104,17 @@ m
 
 # ## Fit to Non-Linear
 
-# In[28]:
+# In[14]:
 
 
 def P_data(data,a0,a1,a2,σ):
     x,y=data
-    μ=a0+a1*x+a2*x*x
+    μ=a0+a1*x+a2*x*x # y ~ μ + random
     distribution=Normal(μ,σ)
     return sum(distribution(y))
 
 
-# In[33]:
+# In[15]:
 
 
 data=t,T
@@ -120,7 +126,7 @@ model=MCMCModel(data,P_data,
                )
 
 
-# In[34]:
+# In[16]:
 
 
 for i in range(2):
@@ -128,13 +134,13 @@ for i in range(2):
 model.plot_chains()
 
 
-# In[35]:
+# In[17]:
 
 
 model.plot_distributions()
 
 
-# In[36]:
+# In[18]:
 
 
 figure(figsize=(14,10))
@@ -146,6 +152,12 @@ a2=model.best_estimates()['a2'][1]
 
 μ=a0+a1*t+a2*t*t
 plot(t,μ,'-')
+
+
+# In[19]:
+
+
+model.BIC
 
 
 # In[ ]:

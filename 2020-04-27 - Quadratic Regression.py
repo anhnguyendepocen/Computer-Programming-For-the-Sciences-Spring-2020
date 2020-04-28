@@ -20,7 +20,7 @@ data=pd.read_csv('data/temperature.txt',delim_whitespace=True)
 data
 
 
-# In[17]:
+# In[4]:
 
 
 t=array(data['Year'])-1880
@@ -30,7 +30,7 @@ plot(t,T,'-o')
 
 # ## Linear Regression
 
-# In[18]:
+# In[5]:
 
 
 model=ols("y ~ x",data={'x':t,'y':T})
@@ -38,19 +38,19 @@ results=model.fit()
 results.summary()
 
 
-# In[19]:
+# In[6]:
 
 
 results.params
 
 
-# In[20]:
+# In[7]:
 
 
 results.params.keys()
 
 
-# In[21]:
+# In[8]:
 
 
 slope=results.params['x']
@@ -58,7 +58,7 @@ slope_uncertainty=results.bse['x']
 slope,slope_uncertainty
 
 
-# In[26]:
+# In[9]:
 
 
 xx=linspace(0,140,100)
@@ -69,7 +69,7 @@ plot(xx,yy)
 
 # ## Quadratic
 
-# In[27]:
+# In[10]:
 
 
 model=ols("y ~ x + I(x*x)",data={'x':t,'y':T})
@@ -77,19 +77,19 @@ results=model.fit()
 results.summary()
 
 
-# In[28]:
+# In[11]:
 
 
 results.params
 
 
-# In[29]:
+# In[12]:
 
 
 results.params.keys()
 
 
-# In[30]:
+# In[13]:
 
 
 linear_parameter=results.params['x']
@@ -97,7 +97,7 @@ linear_parameter_uncertainty=results.bse['x']
 linear_parameter,linear_parameter_uncertainty
 
 
-# In[31]:
+# In[14]:
 
 
 quadratic_parameter=results.params['I(x * x)']
@@ -105,13 +105,25 @@ quadratic_parameter_uncertainty=results.bse['I(x * x)']
 quadratic_parameter,quadratic_parameter_uncertainty
 
 
-# In[32]:
+# In[15]:
 
 
 xx=linspace(0,140,100)
 yy=results.predict({'x':xx})
 plot(t,T,'-o')
 plot(xx,yy)
+
+
+# In[ ]:
+
+
+
+
+
+# In[16]:
+
+
+results.bic
 
 
 # In[ ]:
