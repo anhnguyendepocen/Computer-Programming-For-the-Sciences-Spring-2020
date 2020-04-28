@@ -36,10 +36,16 @@ info.head()
 # In[6]:
 
 
-data.tail()
+info['Brightness']
 
 
 # In[7]:
+
+
+data.tail()
+
+
+# In[8]:
 
 
 station='BERKELEY'
@@ -49,13 +55,13 @@ plot(x,y,'-o')
 title(station)
 
 
-# In[8]:
+# In[9]:
 
 
 x,y   # lots of nans!
 
 
-# In[9]:
+# In[10]:
 
 
 def get_xy(data,station):
@@ -63,13 +69,13 @@ def get_xy(data,station):
     return x,y
 
 
-# In[10]:
+# In[11]:
 
 
 x,y=get_xy(data,station)
 
 
-# In[11]:
+# In[12]:
 
 
 model=ols('y ~ x', data={'y':y,'x':x})
@@ -77,7 +83,7 @@ results=model.fit()
 results.summary()
 
 
-# In[12]:
+# In[13]:
 
 
 xx=linspace(min(x)-10,max(x)+10,20)
@@ -93,7 +99,7 @@ title(station+" : y=%.3g (+/- %.4g) x + %.3g" % (m,mσ,b))
 plot(xx,yy,'b-')
 
 
-# In[13]:
+# In[14]:
 
 
 results.bse
@@ -121,48 +127,49 @@ results.bse
 # 1. weighted by the m-σ
 # 2. errorbars
 
-# In[14]:
+# In[15]:
 
 
 station_names=data.columns[2:]
 station_names[:20]
 
 
-# In[15]:
+# In[16]:
 
 
 station='SHARJAH_INTER_AIRP'
 info[info['Station']==station]
 
 
-# In[16]:
+# In[17]:
 
 
 float(info[info['Station']==station]['Brightness'])
 
 
-# In[17]:
+# In[26]:
 
 
 station='SAVE'
 
 
-# In[18]:
+# In[28]:
 
 
-array(info[info['Station']==station]['Brightness'])[0]
+a=array(info[info['Station']==station]['Brightness'])[0]
 
 
-# In[ ]:
+# In[31]:
 
 
+type(a)
 
 
-
-# In[30]:
+# In[37]:
 
 
 S=Storage()
+station_subset=[]
 for station in station_names[:200]:
     #brightness=float(info[info['Station']==station]['Brightness'])
     brightness=array(info[info['Station']==station]['Brightness'])[0]
@@ -179,25 +186,27 @@ for station in station_names[:200]:
     m=results.params['x']
     mσ=results.bse['x']
     
-    S+=brightness,m,mσ,latitude,longitude,elevation,station
+    S+=brightness,m,mσ,latitude,longitude,elevation
+    
+    station_subset.append(station)
     print(station)
     
-brightness,m,mσ,latitude,longitude,elevation,station = array(S)
+brightness,m,mσ,latitude,longitude,elevation= array(S)
 
 
-# In[20]:
+# In[38]:
 
 
-brightness
+latitude
 
 
-# In[21]:
+# In[39]:
 
 
 m,mσ
 
 
-# In[22]:
+# In[40]:
 
 
 x=brightness
@@ -205,23 +214,23 @@ y=m
 yerr=mσ
 
 
-# In[23]:
+# In[41]:
 
 
 plot(x,y,'o')
 
 
-# In[24]:
+# In[42]:
 
 
 errorbar(x,y,yerr,fmt='o');
 
 
-# In[32]:
+# In[43]:
 
 
 new_info=pd.DataFrame({
-    'Station':station,
+    'Station':station_subset,
     'm':m,
     'brightness':brightness,
     'longitude':longitude,
