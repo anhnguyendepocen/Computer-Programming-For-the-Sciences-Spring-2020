@@ -1,4 +1,4 @@
-print("Version 0.0.4")
+print("Version 0.0.5")
 
 from matplotlib import rcParams
 from numpy import array
@@ -159,9 +159,9 @@ def plot_correlations(data,*args):
                     sig='*'
                 else:
                     sig=''
-                text(x,y,'%.3f' % (c),ha='center',va='center',fontsize=16)
+                plt.text(x,y,'%.3f' % (c),ha='center',va='center',fontsize=16)
                 if sig:
-                    text(x,y+0.25,sig,ha='center',va='center',fontsize=13)
+                    plt.text(x,y+0.25,sig,ha='center',va='center',fontsize=13)
             else:
                 continue
 
